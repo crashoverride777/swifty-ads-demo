@@ -1,6 +1,7 @@
 import UIKit
 import SpriteKit
 import AppTrackingTransparency
+import SwiftyAds
 import GoogleMobileAds
 
 extension Notification.Name {

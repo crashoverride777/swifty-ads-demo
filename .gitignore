@@ -1,0 +1,18 @@
+# Project
+project.xcworkspace/
+xcuserdata/
+
+# DS Store
+.DS_Store
+
+# Swift Package Manager
+.build/
+
+# Cocoa Pods
+Pods/
+
+# SDK
+SDK/
+
+# Other
+*.xcuserstate

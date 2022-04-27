@@ -1,7 +1,7 @@
 target 'SwiftyAdsDemo' do
-   platform :ios, '12.4'
+   platform :ios, '13.6'
    use_frameworks!
 
-   pod 'Google-Mobile-Ads-SDK'
+   pod 'SwiftyAds'
 
 end

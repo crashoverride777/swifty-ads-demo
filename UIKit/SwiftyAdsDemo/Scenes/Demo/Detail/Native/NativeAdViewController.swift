@@ -1,4 +1,5 @@
 import UIKit
+import SwiftyAds
 import GoogleMobileAds
 
 final class NativeAdViewController: UIViewController {
