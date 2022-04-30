@@ -70,16 +70,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6A185ACF253D9DA9001542BC /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
-				6AEB380825E4623B00AFA313 /* Consent Selection */,
-				6AEB371625E2F4B900AFA313 /* Demo */,
-				6AEB380925E4624400AFA313 /* Shared */,
-			);
-			path = Scenes;
-			sourceTree = "<group>";
-		};
 		6A185AD2253D9E05001542BC /* Plain */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,8 +116,10 @@
 		6A4286032400609E0035487A /* SwiftyAdsDemo */ = {
 			isa = PBXGroup;
 			children = (
-				6A185ACF253D9DA9001542BC /* Scenes */,
 				6A4286042400609E0035487A /* AppDelegate.swift */,
+				6AEB380825E4623B00AFA313 /* Consent Selection */,
+				6AEB371625E2F4B900AFA313 /* Demo */,
+				6AEB380925E4624400AFA313 /* Shared */,
 				6A428611240060A00035487A /* Assets.xcassets */,
 				6A428613240060A00035487A /* LaunchScreen.storyboard */,
 				6A428616240060A00035487A /* Info.plist */,

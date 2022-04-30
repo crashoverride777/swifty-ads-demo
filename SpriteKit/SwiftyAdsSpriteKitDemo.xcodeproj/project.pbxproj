@@ -404,7 +404,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/crashoverride777/swifty-ads";
 			requirement = {
-				branch = "feature/swift-package-manager";
+				branch = develop;
 				kind = branch;
 			};
 		};
