@@ -5,10 +5,6 @@ https://github.com/crashoverride777/swifty-ads
 
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Pre-Usage](#pre-usage)
-- [Usage](#usage)
-- [App Store release information](#app-store-release-information)
-- [Demos](#demos)
 - [License](#license)
 
 ## Requirements
@@ -28,4 +24,4 @@ Install package via Xcode
 
 ## License
 
-SwiftyAds is released under the MIT license. [See LICENSE](https://github.com/crashoverride777/swifty-ads/blob/master/LICENSE) for details.
+SwiftyAdsDemo is released under the MIT license. [See LICENSE](https://github.com/crashoverride777/swifty-ads-demo/blob/master/LICENSE) for details.
