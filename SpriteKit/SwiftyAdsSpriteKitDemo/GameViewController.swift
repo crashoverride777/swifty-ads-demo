@@ -1,5 +1,6 @@
 import UIKit
 import SpriteKit
+import SwiftyAds
 
 class GameViewController: UIViewController {
 

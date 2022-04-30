@@ -81,7 +81,8 @@ final class DemoSelectionViewController: UITableViewController {
     private var bannerAd: SwiftyAdsBannerType?
 
     private var isRequiredToAskForConsent: Bool {
-        guard !consentConfiguration.isDisabled else { return false }
+        #warning("fix")
+        //guard !consentConfiguration.isDisabled else { return false }
         return swiftyAds.consentStatus != .notRequired
     }
 

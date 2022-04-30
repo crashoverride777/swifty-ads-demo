@@ -1,6 +1,7 @@
 import UIKit
 import SpriteKit
 import GoogleMobileAds
+import SwiftyAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

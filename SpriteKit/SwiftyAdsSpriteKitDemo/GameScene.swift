@@ -1,4 +1,5 @@
 import SpriteKit
+import SwiftyAds
 
 class GameScene: SKScene {
     
