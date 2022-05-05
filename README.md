@@ -1,6 +1,6 @@
 # SwiftyAds Demo
 
-A UIKit demo using CocoaPods and a SpriteKit demo using SwiftPackageManager for SwiftyAds
+A UIKit and SpriteKit demo using SwiftyAds
 https://github.com/crashoverride777/swifty-ads
 
 - [Requirements](#requirements)
@@ -14,13 +14,15 @@ https://github.com/crashoverride777/swifty-ads
 
 ## Installation
 
-### UIKit Demo (Cocoa Pods)
+Download the repository to your mac.
 
-Run pod install
+### UIKit Demo (CocoaPods)
+
+Install the pod from the UIKit demo.
 
 ### SpriteKit Demo (SwiftPackageManager)
 
-Install package via Xcode
+Install the package via Xcode
 
 ## License
 
