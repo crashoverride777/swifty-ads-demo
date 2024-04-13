@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6A06E44C2593DDE9005EAD20 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A06E44B2593DDE9005EAD20 /* Main.storyboard */; };
-		6A3C587D25D8496400047F9A /* SwiftyAds.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A3C587C25D8496400047F9A /* SwiftyAds.plist */; };
 		6A4286052400609E0035487A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4286042400609E0035487A /* AppDelegate.swift */; };
 		6A428612240060A00035487A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A428611240060A00035487A /* Assets.xcassets */; };
 		6A428615240060A00035487A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A428613240060A00035487A /* LaunchScreen.storyboard */; };
@@ -34,7 +33,6 @@
 
 /* Begin PBXFileReference section */
 		6A06E44B2593DDE9005EAD20 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		6A3C587C25D8496400047F9A /* SwiftyAds.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SwiftyAds.plist; sourceTree = "<group>"; };
 		6A4286012400609E0035487A /* SwiftyAdsSpriteKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftyAdsSpriteKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A4286042400609E0035487A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A428611240060A00035487A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -87,7 +85,6 @@
 				6A06E44B2593DDE9005EAD20 /* Main.storyboard */,
 				6A428613240060A00035487A /* LaunchScreen.storyboard */,
 				6A428616240060A00035487A /* Info.plist */,
-				6A3C587C25D8496400047F9A /* SwiftyAds.plist */,
 			);
 			path = SwiftyAdsSpriteKitDemo;
 			sourceTree = "<group>";
@@ -132,7 +129,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = "Dominik Ringler";
 				TargetAttributes = {
 					6A4286002400609E0035487A = {
@@ -173,7 +170,6 @@
 				6A06E44C2593DDE9005EAD20 /* Main.storyboard in Resources */,
 				6A428612240060A00035487A /* Assets.xcassets in Resources */,
 				6A428615240060A00035487A /* LaunchScreen.storyboard in Resources */,
-				6A3C587D25D8496400047F9A /* SwiftyAds.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +204,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -272,6 +269,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -351,6 +349,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -382,6 +381,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -415,8 +415,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/crashoverride777/swifty-ads";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 15.0.0;
+				branch = develop;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

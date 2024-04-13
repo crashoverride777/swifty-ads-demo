@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = UINavigationController()
         let consentSelectionViewController = ConsentSelectionViewController(swiftyAds: swiftyAds) { geography in
             let consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration = geography == .disabled ?
-                .disabled :
+                .default(geography: .disabled) :
                 .resetOnLaunch(geography: geography)
             let demoSelectionViewController = DemoSelectionViewController(swiftyAds: self.swiftyAds, consentConfiguration: consentConfiguration)
             navigationController.setViewControllers([demoSelectionViewController], animated: true)
@@ -58,47 +58,28 @@ private extension AppDelegate {
             for: environment,
             requestBuilder: SwiftyAdsRequestBuilder(),
             mediationConfigurator: SwiftyAdsMediationConfigurator(),
-            consentStatusDidChange: { status in
-                switch status {
-                case .notRequired:
-                    print("SwiftyAds did change consent status: notRequired")
-                case .required:
-                    print("SwiftyAds did change consent status: required")
-                case .obtained:
-                    print("SwiftyAds did change consent status: obtained")
-                case .unknown:
-                    print("SwiftyAds did change consent status: unknown")
-                @unknown default:
-                    print("SwiftyAds did change consent status: unknown default")
-                }
-            },
-            completion: ({ [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let consentStatus):
-                    switch consentStatus {
-                    case .notRequired:
-                        print("SwiftyAds did finish setup with consent status: notRequired")
-                    case .required:
-                        print("SwiftyAds did finish setup with consent status: required")
-                    case .obtained:
-                        print("SwiftyAds did finish setup with consent status: obtained")
-                    case .unknown:
-                        print("SwiftyAds did finish setup with consent status: unknown")
-                    @unknown default:
-                        print("SwiftyAds did finish setup with consent status: unknown default")
-                    }
-                case .failure(let error):
-                    print("SwiftyAds did finish setup with error: \(error)")
-                }
-
-                // Ads are now ready to be displayed
-                self.notificationCenter.post(name: .adsConfigureCompletion, object: nil)
+            bundlePlist: .main,
+            completion: ({ [weak self] in
+                self?.notificationCenter.post(name: .adsConfigureCompletion, object: nil)
             })
         )
+        
+        swiftyAds.observeConsentStatus { newStatus in
+            switch newStatus {
+            case .notRequired:
+                print("SwiftyAds did change consent status: notRequired")
+            case .required:
+                print("SwiftyAds did change consent status: required")
+            case .obtained:
+                print("SwiftyAds did change consent status: obtained")
+            case .unknown:
+                print("SwiftyAds did change consent status: unknown")
+            @unknown default:
+                print("SwiftyAds did change consent status: unknown default")
+            }
+        }
     }
-
-
+    
     func requestTrackingAuthorization(completion: @escaping () -> Void) {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization { _ in

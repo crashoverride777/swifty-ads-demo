@@ -1,7 +1,0 @@
-target 'SwiftyAdsDemo' do
-   platform :ios, '14.0'
-   use_frameworks!
-
-   pod 'SwiftyAds'
-
-end

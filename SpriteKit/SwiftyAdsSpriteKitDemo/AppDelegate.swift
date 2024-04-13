@@ -37,44 +37,26 @@ private extension AppDelegate {
             for: environment,
             requestBuilder: SwiftyAdsRequestBuilder(),
             mediationConfigurator: SwiftyAdsMediationConfigurator(),
-            consentStatusDidChange: { status in
-                switch status {
-                case .notRequired:
-                    print("SwiftyAds did change consent status: notRequired")
-                case .required:
-                    print("SwiftyAds did change consent status: required")
-                case .obtained:
-                    print("SwiftyAds did change consent status: obtained")
-                case .unknown:
-                    print("SwiftyAds did change consent status: unknown")
-                @unknown default:
-                    print("SwiftyAds did change consent status: unknown default")
-                }
-            },
-            completion: ({ result in
-                switch result {
-                case .success(let consentStatus):
-                    switch consentStatus {
-                    case .notRequired:
-                        print("SwiftyAds did finish setup with consent status: notRequired")
-                    case .required:
-                        print("SwiftyAds did finish setup with consent status: required")
-                    case .obtained:
-                        print("SwiftyAds did finish setup with consent status: obtained")
-                    case .unknown:
-                        print("SwiftyAds did finish setup with consent status: unknown")
-                    @unknown default:
-                        print("SwiftyAds did finish setup with consent status: unknown default")
-                    }
-
-                    // Ads are now ready to be displayed
-                    gameViewController.adsConfigureCompletion()
-                    
-                case .failure(let error):
-                    print("SwiftyAds did finish setup with error: \(error)")
-                }
-            })
+            bundlePlist: .main,
+            completion: {
+                gameViewController.adsConfigureCompletion()
+            }
         )
+        
+        swiftyAds.observeConsentStatus { newStatus in
+            switch newStatus {
+            case .notRequired:
+                print("SwiftyAds did change consent status: notRequired")
+            case .required:
+                print("SwiftyAds did change consent status: required")
+            case .obtained:
+                print("SwiftyAds did change consent status: obtained")
+            case .unknown:
+                print("SwiftyAds did change consent status: unknown")
+            @unknown default:
+                print("SwiftyAds did change consent status: unknown default")
+            }
+        }
     }
 }
 
