@@ -12,10 +12,5 @@
 	<string>ca-app-pub-3940256099942544/6978759866</string>
 	<key>nativeAdUnitId</key>
 	<string>ca-app-pub-3940256099942544/3986624511</string>
-	<key>consent</key>
-	<dict>
-		<key>isTaggedForUnderAgeOfConsent</key>
-		<false/>
-	</dict>
 </dict>
 </plist>

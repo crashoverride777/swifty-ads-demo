@@ -10,7 +10,7 @@ final class PlainViewController: UIViewController {
     
     private lazy var interstitialAdButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Show Interstitial ad (2 interval)", for: .normal)
+        button.setTitle("Show Interstitial ad", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(showInterstitialAdButtonPressed), for: .touchUpInside)
         return button
@@ -119,7 +119,6 @@ private extension PlainViewController {
     @objc func showInterstitialAdButtonPressed() {
         swiftyAds.showInterstitialAd(
             from: self,
-            afterInterval: 2,
             onOpen: {
                 print("SwiftyAds interstitial ad did open")
             },
@@ -165,7 +164,6 @@ private extension PlainViewController {
     @objc func showRewardedInterstitialAdButtonPressed() {
         swiftyAds.showRewardedInterstitialAd(
             from: self,
-            afterInterval: nil,
             onOpen: {
                 print("SwiftyAds rewarded interstitial ad did open")
             },

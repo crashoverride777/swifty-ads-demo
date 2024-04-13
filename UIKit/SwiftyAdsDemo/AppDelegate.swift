@@ -18,9 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let navigationController = UINavigationController()
         let consentSelectionViewController = ConsentSelectionViewController(swiftyAds: swiftyAds) { geography in
-            let consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration = geography == .disabled ?
-                .default(geography: .disabled) :
-                .resetOnLaunch(geography: geography)
+            let consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration = .resetOnLaunch(geography: geography)
             let demoSelectionViewController = DemoSelectionViewController(swiftyAds: self.swiftyAds, consentConfiguration: consentConfiguration)
             navigationController.setViewControllers([demoSelectionViewController], animated: true)
 
@@ -46,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - Private Methods
 
 private extension AppDelegate {
-    
     func configureSwiftyAds(from viewController: UIViewController, consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration) {
         #if DEBUG
         let environment: SwiftyAdsEnvironment = .development(testDeviceIdentifiers: [], consentConfiguration: consentConfiguration)
