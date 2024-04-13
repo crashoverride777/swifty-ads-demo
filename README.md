@@ -9,20 +9,13 @@ https://github.com/crashoverride777/swifty-ads
 
 ## Requirements
 
-- iOS 12.4+
-- Swift 5.0+
+- iOS 14.0+
+- Swift 5.8+
 
 ## Installation
 
-Download the repository to your mac.
-
-### UIKit Demo (CocoaPods)
-
-Install the pod from the UIKit demo.
-
-### SpriteKit Demo (SwiftPackageManager)
-
-Install the package via Xcode
+Download the repository to your mac. SwiftyAds should automatically install via
+SwiftPackageManager (SPM)
 
 ## License
 

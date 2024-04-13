@@ -56,8 +56,13 @@ private extension AppDelegate {
             requestBuilder: SwiftyAdsRequestBuilder(),
             mediationConfigurator: SwiftyAdsMediationConfigurator(),
             bundlePlist: .main,
-            completion: ({ [weak self] in
-                self?.notificationCenter.post(name: .adsConfigureCompletion, object: nil)
+            completion: ({ [weak self] result in
+                switch result {
+                case .success:
+                    self?.notificationCenter.post(name: .adsConfigureCompletion, object: nil)
+                case .failure(let error):
+                    print("SwiftyAds configure error", error)
+                }
             })
         )
         

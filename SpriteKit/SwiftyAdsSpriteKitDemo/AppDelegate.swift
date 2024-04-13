@@ -38,8 +38,13 @@ private extension AppDelegate {
             requestBuilder: SwiftyAdsRequestBuilder(),
             mediationConfigurator: SwiftyAdsMediationConfigurator(),
             bundlePlist: .main,
-            completion: {
-                gameViewController.adsConfigureCompletion()
+            completion: { result in
+                switch result {
+                case .success:
+                    gameViewController.adsConfigureCompletion()
+                case .failure(let error):
+                    print("SwiftyAds configure error", error)
+                }
             }
         )
         

@@ -19,9 +19,9 @@
 		6A6011F82BCACD830045A864 /* SwiftyAdsConsent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A6011F72BCACD830045A864 /* SwiftyAdsConsent.plist */; };
 		6A864BC925901827005D0789 /* NativeAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A864BC825901827005D0789 /* NativeAdViewController.swift */; };
 		6AD3988A25CE970A0038C9B0 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AD3988925CE970A0038C9B0 /* AppTrackingTransparency.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		6AE996032BCAC73900339FD0 /* SwiftyAds in Frameworks */ = {isa = PBXBuildFile; productRef = 6AE996022BCAC73900339FD0 /* SwiftyAds */; };
 		6AEB371525E2F3A100AFA313 /* ConsentSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEB371425E2F3A100AFA313 /* ConsentSelectionViewController.swift */; };
 		6AEF6C2E2560CC1200780DFB /* TabBarControllerNoAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF6C2D2560CC1200780DFB /* TabBarControllerNoAd.swift */; };
+		6AF7315E2BCAE1BE00B9FE3E /* SwiftyAds in Frameworks */ = {isa = PBXBuildFile; productRef = 6AF7315D2BCAE1BE00B9FE3E /* SwiftyAds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,7 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6AD3988A25CE970A0038C9B0 /* AppTrackingTransparency.framework in Frameworks */,
-				6AE996032BCAC73900339FD0 /* SwiftyAds in Frameworks */,
+				6AF7315E2BCAE1BE00B9FE3E /* SwiftyAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,7 +197,7 @@
 			);
 			name = SwiftyAdsDemo;
 			packageProductDependencies = (
-				6AE996022BCAC73900339FD0 /* SwiftyAds */,
+				6AF7315D2BCAE1BE00B9FE3E /* SwiftyAds */,
 			);
 			productName = Example;
 			productReference = 6A4286012400609E0035487A /* SwiftyAdsDemo.app */;
@@ -232,7 +232,7 @@
 			);
 			mainGroup = 6A4285F82400609E0035487A;
 			packageReferences = (
-				6AE996012BCAC73900339FD0 /* XCRemoteSwiftPackageReference "swifty-ads" */,
+				6AF7315C2BCAE1BE00B9FE3E /* XCRemoteSwiftPackageReference "swifty-ads" */,
 			);
 			productRefGroup = 6A4286022400609E0035487A /* Products */;
 			projectDirPath = "";
@@ -498,20 +498,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6AE996012BCAC73900339FD0 /* XCRemoteSwiftPackageReference "swifty-ads" */ = {
+		6AF7315C2BCAE1BE00B9FE3E /* XCRemoteSwiftPackageReference "swifty-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/crashoverride777/swifty-ads.git";
 			requirement = {
-				branch = develop;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 16.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6AE996022BCAC73900339FD0 /* SwiftyAds */ = {
+		6AF7315D2BCAE1BE00B9FE3E /* SwiftyAds */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6AE996012BCAC73900339FD0 /* XCRemoteSwiftPackageReference "swifty-ads" */;
+			package = 6AF7315C2BCAE1BE00B9FE3E /* XCRemoteSwiftPackageReference "swifty-ads" */;
 			productName = SwiftyAds;
 		};
 /* End XCSwiftPackageProductDependency section */
