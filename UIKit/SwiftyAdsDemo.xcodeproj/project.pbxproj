@@ -466,8 +466,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/crashoverride777/swifty-ads.git";
 			requirement = {
-				branch = develop;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 18.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
