@@ -6,7 +6,7 @@ final class PlainViewController: UIViewController {
     // MARK: - Properties
 
     private let swiftyAds: SwiftyAdsType
-    private var bannerAd: SwiftyAdsBannerType?
+    private var bannerAd: SwiftyAdsBannerAd?
     
     private lazy var interstitialAdButton: UIButton = {
         let button = UIButton(type: .system)

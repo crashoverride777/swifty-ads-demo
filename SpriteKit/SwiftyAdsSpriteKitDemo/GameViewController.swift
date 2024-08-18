@@ -2,13 +2,13 @@ import UIKit
 import SpriteKit
 import SwiftyAds
 
-class GameViewController: UIViewController {
+final class GameViewController: UIViewController {
 
     // MARK: - Properties
 
     private let swiftyAds: SwiftyAdsType = SwiftyAds.shared
     private let notificationCenter: NotificationCenter = .default
-    private var bannerAd: SwiftyAdsBannerType?
+    private var bannerAd: SwiftyAdsBannerAd?
 
     override var shouldAutorotate: Bool {
         true
@@ -30,17 +30,9 @@ class GameViewController: UIViewController {
         makeBanner()
 
         if let scene = GameScene(fileNamed: "GameScene") {
-            // Configure the view.
-            let skView = self.view as! SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
-
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
+            let skView = view as! SKView
             skView.ignoresSiblingOrder = true
-
-            /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .aspectFill
-
             skView.presentScene(scene)
         }
     }

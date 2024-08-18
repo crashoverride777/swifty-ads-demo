@@ -1,11 +1,10 @@
 import UIKit
-import SwiftyAds
 
 final class ConsentSelectionViewController: UITableViewController {
 
     // MARK: - Types
 
-    private enum Row: CaseIterable {
+    enum Row: CaseIterable {
         case EEA
         case notEEA
         case disabled
@@ -24,20 +23,14 @@ final class ConsentSelectionViewController: UITableViewController {
 
     // MARK: - Properties
 
-    private let swiftyAds: SwiftyAdsType
     private let rows = Row.allCases
-    private var selectedRow: (SwiftyAdsEnvironment.ConsentConfiguration.Geography) -> Void
+    private var selection: (Row) -> Void
 
     // MARK: - Initialization
 
-    init(swiftyAds: SwiftyAdsType, selectedRow: @escaping (SwiftyAdsEnvironment.ConsentConfiguration.Geography) -> Void) {
-        self.swiftyAds = swiftyAds
-        self.selectedRow = selectedRow
-        if #available(iOS 13.0, *) {
-            super.init(style: .insetGrouped)
-        } else {
-            super.init(style: .grouped)
-        }
+    init(selection: @escaping (Row) -> Void) {
+        self.selection = selection
+        super.init(style: .insetGrouped)
     }
 
     required init?(coder: NSCoder) {
@@ -53,11 +46,7 @@ final class ConsentSelectionViewController: UITableViewController {
     }
 
     // MARK: - UITableViewDataSource
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         rows.count
     }
@@ -73,13 +62,6 @@ final class ConsentSelectionViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = rows[indexPath.row]
-        switch row {
-        case .EEA:
-            selectedRow(.EEA)
-        case .notEEA:
-            selectedRow(.notEEA)
-        case .disabled:
-            selectedRow(.disabled)
-        }
+        selection(row)
     }
 }

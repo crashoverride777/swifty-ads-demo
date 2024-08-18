@@ -6,7 +6,7 @@ final class TabBarControllerAd: UITabBarController {
     // MARK: - Properties
     
     private let swiftyAds: SwiftyAdsType
-    private var bannerAd: SwiftyAdsBannerType?
+    private var bannerAd: SwiftyAdsBannerAd?
     
     // MARK: - Initialization
     

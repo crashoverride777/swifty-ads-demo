@@ -1,5 +1,6 @@
 import UIKit
 import SwiftyAds
+import UserMessagingPlatform
 
 final class DemoSelectionViewController: UITableViewController {
     
@@ -75,26 +76,22 @@ final class DemoSelectionViewController: UITableViewController {
     // MARK: - Properties
 
     private let swiftyAds: SwiftyAdsType
-    private let consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration
+    private let geography: UMPDebugGeography
     private let sections = Section.allCases
     private let notificationCenter: NotificationCenter = .default
-    private var bannerAd: SwiftyAdsBannerType?
+    private var bannerAd: SwiftyAdsBannerAd?
 
     private var isRequiredToAskForConsent: Bool {
-        guard consentConfiguration.geography != .disabled else { return false }
+        guard geography != .disabled else { return false }
         return swiftyAds.consentStatus != .notRequired
     }
 
     // MARK: - Initialization
     
-    init(swiftyAds: SwiftyAdsType, consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration) {
+    init(swiftyAds: SwiftyAdsType, geography: UMPDebugGeography) {
         self.swiftyAds = swiftyAds
-        self.consentConfiguration = consentConfiguration
-        if #available(iOS 13.0, *) {
-            super.init(style: .insetGrouped)
-        } else {
-            super.init(style: .grouped)
-        }
+        self.geography = geography
+        super.init(style: .insetGrouped)
     }
     
     required init?(coder: NSCoder) {
@@ -171,8 +168,10 @@ final class DemoSelectionViewController: UITableViewController {
             viewController = NativeAdViewController(swityAds: swiftyAds)
 
         case .updateConsent:
-            swiftyAds.askForConsent(from: self) { [weak self] result in
-                self?.tableView.reloadData()
+            Task { [weak self] in
+                guard let self = self else { return }
+                _ = try await self.swiftyAds.updateConsent(from: self)
+                DispatchQueue.main.async { self.tableView.reloadData() }
             }
 
         case .disable:
@@ -191,15 +190,6 @@ final class DemoSelectionViewController: UITableViewController {
 // MARK: - Private Methods
 
 private extension DemoSelectionViewController {
-
-    @objc func adsConfigureCompletion() {
-        if bannerAd == nil {
-            makeBanner()
-        }
-        bannerAd?.show(isLandscape: view.frame.width > view.frame.height)
-        tableView.reloadData()
-    }
-
     func makeBanner() {
         bannerAd = swiftyAds.makeBannerAd(
             in: self,
@@ -238,5 +228,13 @@ private extension DemoSelectionViewController {
         DispatchQueue.main.async {
             self.present(alertController, animated: true)
         }
+    }
+    
+    @objc func adsConfigureCompletion() {
+        if bannerAd == nil {
+            makeBanner()
+        }
+        bannerAd?.show(isLandscape: view.frame.width > view.frame.height)
+        tableView.reloadData()
     }
 }

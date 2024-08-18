@@ -3,6 +3,7 @@ import SpriteKit
 import AppTrackingTransparency
 import SwiftyAds
 import GoogleMobileAds
+import UserMessagingPlatform
 
 extension Notification.Name {
     static let adsConfigureCompletion = Notification.Name("AdsConfigureCompletion")
@@ -17,20 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let navigationController = UINavigationController()
-        let consentSelectionViewController = ConsentSelectionViewController(swiftyAds: swiftyAds) { geography in
-            let consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration = .resetOnLaunch(geography: geography)
-            let demoSelectionViewController = DemoSelectionViewController(swiftyAds: self.swiftyAds, consentConfiguration: consentConfiguration)
-            navigationController.setViewControllers([demoSelectionViewController], animated: true)
-
-            if geography == .disabled {
-                self.requestTrackingAuthorization {
-                    self.configureSwiftyAds(from: navigationController, consentConfiguration: consentConfiguration)
-                }
-            } else {
-                self.configureSwiftyAds(from: navigationController, consentConfiguration: consentConfiguration)
-            }
-        }
-
+        let consentSelectionViewController = ConsentSelectionViewController(selection: { row in
+            self.selected(row, navigationController: navigationController)
+        })
         navigationController.setViewControllers([consentSelectionViewController], animated: false)
 
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -44,73 +34,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - Private Methods
 
 private extension AppDelegate {
-    func configureSwiftyAds(from viewController: UIViewController, consentConfiguration: SwiftyAdsEnvironment.ConsentConfiguration) {
-        #if DEBUG
-        let environment: SwiftyAdsEnvironment = .development(testDeviceIdentifiers: [], consentConfiguration: consentConfiguration)
-        #else
-        let environment: SwiftyAdsEnvironment = .production
-        #endif
-        swiftyAds.configure(
-            from: viewController,
-            for: environment,
-            requestBuilder: SwiftyAdsRequestBuilder(),
-            mediationConfigurator: SwiftyAdsMediationConfigurator(),
-            bundlePlist: .main,
-            completion: ({ [weak self] result in
-                switch result {
-                case .success:
-                    self?.notificationCenter.post(name: .adsConfigureCompletion, object: nil)
-                case .failure(let error):
-                    print("SwiftyAds configure error", error)
-                }
-            })
-        )
-        
-        swiftyAds.observeConsentStatus { newStatus in
-            switch newStatus {
-            case .notRequired:
-                print("SwiftyAds did change consent status: notRequired")
-            case .required:
-                print("SwiftyAds did change consent status: required")
-            case .obtained:
-                print("SwiftyAds did change consent status: obtained")
-            case .unknown:
-                print("SwiftyAds did change consent status: unknown")
-            @unknown default:
-                print("SwiftyAds did change consent status: unknown default")
-            }
-        }
-    }
-    
-    func requestTrackingAuthorization(completion: @escaping () -> Void) {
-        if #available(iOS 14, *) {
+    func selected(_ row: ConsentSelectionViewController.Row, navigationController: UINavigationController) {
+        let geography = row.umpDebugGeography
+        let demoSelectionViewController = DemoSelectionViewController(swiftyAds: self.swiftyAds, geography: geography)
+        navigationController.setViewControllers([demoSelectionViewController], animated: true)
+        if geography == .disabled {
             ATTrackingManager.requestTrackingAuthorization { _ in
                 DispatchQueue.main.async {
-                    completion()
+                    self.configureSwiftyAds(from: navigationController, geography: geography)
                 }
             }
         } else {
-            completion()
+            self.configureSwiftyAds(from: navigationController, geography: geography)
+        }
+    }
+    
+    func configureSwiftyAds(from viewController: UIViewController, geography: UMPDebugGeography) {
+        #if DEBUG
+        swiftyAds.enableDebug(
+            testDeviceIdentifiers: [],
+            geography: geography,
+            resetsConsentOnLaunch: true,
+            isTaggedForChildDirectedTreatment: nil,
+            isTaggedForUnderAgeOfConsent: false
+        )
+        #endif
+        swiftyAds.configure(requestBuilder: AdsRequestBuilder(), mediationConfigurator: AdsMediationConfigurator())
+        Task {
+            do {
+                try await swiftyAds.initializeIfNeeded(from: viewController)
+            } catch {
+                print(error)
+            }
         }
     }
 }
 
-// MARK: - SwiftyAdsRequestBuilder
-
-private final class SwiftyAdsRequestBuilder: SwiftyAdsRequestBuilderType {
-    func build() -> GADRequest {
-        GADRequest()
-    }
-}
-
-// MARK: - SwiftyAdsMediationConfiguratorType
-
-private final class SwiftyAdsMediationConfigurator: SwiftyAdsMediationConfiguratorType {
-    func updateCOPPA(isTaggedForChildDirectedTreatment: Bool) {
-        print("SwiftyAdsMediationConfigurator update COPPA", isTaggedForChildDirectedTreatment)
-    }
-    
-    func updateGDPR(for consentStatus: SwiftyAdsConsentStatus, isTaggedForUnderAgeOfConsent: Bool) {
-        print("SwiftyAdsMediationConfigurator update GDPR")
+private extension ConsentSelectionViewController.Row {
+    var umpDebugGeography: UMPDebugGeography {
+        switch self {
+        case .EEA:
+            return .EEA
+        case .notEEA:
+            return .notEEA
+        case .disabled:
+            return .disabled
+        }
     }
 }

@@ -1,7 +1,7 @@
 import SpriteKit
 import SwiftyAds
 
-class GameScene: SKScene {
+final class GameScene: SKScene {
     
     // MARK: - Properties
     

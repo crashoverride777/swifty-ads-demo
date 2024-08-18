@@ -11,7 +11,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let swiftyAds: SwiftyAdsType = SwiftyAds.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
         if let gameViewController = window?.rootViewController as? GameViewController {
             configureSwiftyAds(from: gameViewController)
         }
@@ -22,65 +21,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - Private Methods
 
 private extension AppDelegate {
-    
-    func configureSwiftyAds(from gameViewController: GameViewController) {
+    func configureSwiftyAds(from viewController: GameViewController) {
         #if DEBUG
-        let environment: SwiftyAdsEnvironment = .development(
+        swiftyAds.enableDebug(
             testDeviceIdentifiers: [],
-            consentConfiguration: .resetOnLaunch(geography: .EEA)
+            geography: .EEA,
+            resetsConsentOnLaunch: true,
+            isTaggedForChildDirectedTreatment: nil,
+            isTaggedForUnderAgeOfConsent: false
         )
-        #else
-        let environment: SwiftyAdsEnvironment = .production
         #endif
-        swiftyAds.configure(
-            from: gameViewController,
-            for: environment,
-            requestBuilder: SwiftyAdsRequestBuilder(),
-            mediationConfigurator: SwiftyAdsMediationConfigurator(),
-            bundlePlist: .main,
-            completion: { result in
-                switch result {
-                case .success:
-                    gameViewController.adsConfigureCompletion()
-                case .failure(let error):
-                    print("SwiftyAds configure error", error)
-                }
-            }
-        )
-        
-        swiftyAds.observeConsentStatus { newStatus in
-            switch newStatus {
-            case .notRequired:
-                print("SwiftyAds did change consent status: notRequired")
-            case .required:
-                print("SwiftyAds did change consent status: required")
-            case .obtained:
-                print("SwiftyAds did change consent status: obtained")
-            case .unknown:
-                print("SwiftyAds did change consent status: unknown")
-            @unknown default:
-                print("SwiftyAds did change consent status: unknown default")
+        swiftyAds.configure(requestBuilder: AdsRequestBuilder(), mediationConfigurator: AdsMediationConfigurator())
+        Task {
+            do {
+                try await swiftyAds.initializeIfNeeded(from: viewController)
+            } catch {
+                print(error)
             }
         }
-    }
-}
-
-// MARK: - SwiftyAdsRequestBuilder
-
-private final class SwiftyAdsRequestBuilder: SwiftyAdsRequestBuilderType {
-    func build() -> GADRequest {
-        GADRequest()
-    }
-}
-
-// MARK: - SwiftyAdsMediationConfiguratorType
-
-private final class SwiftyAdsMediationConfigurator: SwiftyAdsMediationConfiguratorType {
-    func updateCOPPA(isTaggedForChildDirectedTreatment: Bool) {
-        print("SwiftyAdsMediationConfigurator update COPPA", isTaggedForChildDirectedTreatment)
-    }
-    
-    func updateGDPR(for consentStatus: SwiftyAdsConsentStatus, isTaggedForUnderAgeOfConsent: Bool) {
-        print("SwiftyAdsMediationConfigurator update GDPR")
     }
 }
