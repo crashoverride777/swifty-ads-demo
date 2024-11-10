@@ -106,7 +106,6 @@ final class PlainViewController: UIViewController {
 // MARK: - Private Methods
 
 private extension PlainViewController {
-
     func addSubviews() {
         view.addSubview(stackView)
 
@@ -117,65 +116,72 @@ private extension PlainViewController {
     }
     
     @objc func showInterstitialAdButtonPressed() {
-        swiftyAds.showInterstitialAd(
-            from: self,
-            onOpen: {
-                print("SwiftyAds interstitial ad did open")
-            },
-            onClose: {
-                print("SwiftyAds interstitial ad did close")
-            },
-            onError: { error in
-                print("SwiftyAds interstitial ad error \(error)")
-            }
-        )
+        Task { [weak self] in
+            guard let self else { return }
+            try await self.swiftyAds.showInterstitialAd(
+                from: self,
+                onOpen: {
+                    print("SwiftyAds interstitial ad did open")
+                },
+                onClose: {
+                    print("SwiftyAds interstitial ad did close")
+                },
+                onError: { error in
+                    print("SwiftyAds interstitial ad error \(error)")
+                }
+            )
+        }
     }
     
     @objc func showRewardedAdButtonPressed() {
-        swiftyAds.showRewardedAd(
-            from: self,
-            onOpen: {
-                print("SwiftyAds rewarded ad did open")
-            },
-            onClose: {
-                print("SwiftyAds rewarded ad did close")
-            },
-            onError: { error in
-                print("SwiftyAds rewarded ad error \(error)")
-            },
-            onNotReady: { [weak self] in
-                guard let self = self else { return }
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await self.swiftyAds.showRewardedAd(
+                    from: self,
+                    onOpen: {
+                        print("SwiftyAds rewarded ad did open")
+                    },
+                    onClose: {
+                        print("SwiftyAds rewarded ad did close")
+                    },
+                    onError: { error in
+                        print("SwiftyAds rewarded ad error \(error)")
+                    },
+                    onReward: ({ rewardAmount in
+                        print("SwiftyAds rewarded ad did reward user with \(rewardAmount)")
+                    })
+                )
+            } catch SwiftyAdsError.rewardedAdNotLoaded {
                 let alertController = UIAlertController(
                     title: "Sorry",
                     message: "No video available to watch at the moment.",
                     preferredStyle: .alert
                 )
                 alertController.addAction(UIAlertAction(title: "Ok", style: .cancel))
-                DispatchQueue.main.async {
-                    self.present(alertController, animated: true)
-                }
-            },
-            onReward: ({ rewardAmount in
-                print("SwiftyAds rewarded ad did reward user with \(rewardAmount)")
-            })
-        )
+                DispatchQueue.main.async { self.present(alertController, animated: true) }
+            }
+        }
     }
 
     @objc func showRewardedInterstitialAdButtonPressed() {
-        swiftyAds.showRewardedInterstitialAd(
-            from: self,
-            onOpen: {
-                print("SwiftyAds rewarded interstitial ad did open")
-            },
-            onClose: {
-                print("SwiftyAds rewarded interstitial ad did close")
-            },
-            onError: { error in
-                print("SwiftyAds rewarded interstitial ad error \(error)")
-            },
-            onReward: { rewardAmount in
-                print("SwiftyAds rewarded interstitial ad did reward user with \(rewardAmount)")
-            }
-        )
+        Task { [weak self] in
+            guard let self else { return }
+            try await self.swiftyAds.showRewardedInterstitialAd(
+                from: self,
+                onOpen: {
+                    print("SwiftyAds rewarded interstitial ad did open")
+                },
+                onClose: {
+                    print("SwiftyAds rewarded interstitial ad did close")
+                },
+                onError: { error in
+                    print("SwiftyAds rewarded interstitial ad error \(error)")
+                },
+                onReward: { rewardAmount in
+                    print("SwiftyAds rewarded interstitial ad did reward user with \(rewardAmount)")
+                }
+            )
+        }
     }
 }

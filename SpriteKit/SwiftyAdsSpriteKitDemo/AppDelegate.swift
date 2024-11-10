@@ -3,7 +3,7 @@ import SpriteKit
 import GoogleMobileAds
 import SwiftyAds
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?

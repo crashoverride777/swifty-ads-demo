@@ -58,7 +58,6 @@ extension NativeAdViewController: GADNativeAdDelegate {
 // MARK: - Private Methods
 
 private extension NativeAdViewController {
-
     func showNativeAd(_ nativeAd: GADNativeAd) {
         // Create and place ad in view hierarchy.
         let bundle = Bundle(for: NativeAdViewController.self)

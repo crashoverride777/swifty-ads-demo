@@ -6,14 +6,14 @@ final class ConsentSelectionViewController: UITableViewController {
 
     enum Row: CaseIterable {
         case EEA
-        case notEEA
+        case other
         case disabled
 
         var title: String {
             switch self {
             case .EEA:
                 return "Inside EEA (GDPR)"
-            case .notEEA:
+            case .other:
                 return "Outside EEA (no GDPR)"
             case .disabled:
                 return "Disabled"

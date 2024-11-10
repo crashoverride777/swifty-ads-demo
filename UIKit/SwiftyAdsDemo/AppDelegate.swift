@@ -9,7 +9,7 @@ extension Notification.Name {
     static let adsConfigureCompletion = Notification.Name("AdsConfigureCompletion")
 }
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
@@ -75,8 +75,8 @@ private extension ConsentSelectionViewController.Row {
         switch self {
         case .EEA:
             return .EEA
-        case .notEEA:
-            return .notEEA
+        case .other:
+            return .other
         case .disabled:
             return .disabled
         }

@@ -15,78 +15,19 @@ final class GameScene: SKScene {
     // MARK: - Life Cycle
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let gameViewController = view?.window?.rootViewController as? GameViewController else { return }
         for touch in touches {
             let location = touch.location(in: self)
             let node = atPoint(location)
-            
-            guard let gameViewController = view?.window?.rootViewController as? GameViewController else {
-                return
-            }
-            
             switch node {
-
             case interstitialLabel:
-                swiftyAds.showInterstitialAd(
-                    from: gameViewController,
-                    onOpen: {
-                        print("SwiftyAds interstitial ad did open")
-                    },
-                    onClose: {
-                        print("SwiftyAds interstitial ad did close")
-                    },
-                    onError: { error in
-                        print("SwiftyAds interstitial ad error \(error)")
-                    }
-                )
-
+                showInterstitialAd(from: gameViewController)
             case rewardedLabel:
-                swiftyAds.showRewardedAd(
-                    from: gameViewController,
-                    onOpen: {
-                        print("SwiftyAds rewarded ad did open")
-                    },
-                    onClose: {
-                        print("SwiftyAds rewarded ad did close")
-                    },
-                    onError: { error in
-                        print("SwiftyAds rewarded ad error \(error)")
-                    },
-                    onNotReady: {
-                        let alertController = UIAlertController(
-                            title: "Sorry",
-                            message: "No video available to watch at the moment.",
-                            preferredStyle: .alert
-                        )
-                        alertController.addAction(UIAlertAction(title: "Ok", style: .cancel))
-                        DispatchQueue.main.async {
-                            gameViewController.present(alertController, animated: true)
-                        }
-                    },
-                    onReward: { rewardAmount in
-                        print("SwiftyAds rewarded ad did reward user with \(rewardAmount)")
-                    }
-                )
-
+                showRewardedAd(from: gameViewController)
             case rewardedInterstitialLabel:
-                swiftyAds.showRewardedInterstitialAd(
-                    from: gameViewController,
-                    onOpen: {
-                        print("SwiftyAds rewarded interstitial ad did open")
-                    },
-                    onClose: {
-                        print("SwiftyAds rewarded interstitial ad did close")
-                    },
-                    onError: { error in
-                        print("SwiftyAds rewarded interstitial ad error \(error)")
-                    },
-                    onReward: { rewardAmount in
-                        print("SwiftyAds rewarded interstitial ad did reward user with \(rewardAmount)")
-                    }
-                )
-
+                showRewardedInterstitialAd(from: gameViewController)
             case disableLabel:
                 gameViewController.disableAds()
-
             default:
                 break
             }
@@ -96,4 +37,77 @@ final class GameScene: SKScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {}
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {}
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {}
+}
+
+// MARK: - Private Methods
+
+private extension GameScene {
+    func showInterstitialAd(from viewController: UIViewController) {
+        Task { [weak self] in
+            try await self?.swiftyAds.showInterstitialAd(
+                from: viewController,
+                onOpen: {
+                    print("SwiftyAds interstitial ad did open")
+                },
+                onClose: {
+                    print("SwiftyAds interstitial ad did close")
+                },
+                onError: { error in
+                    print("SwiftyAds interstitial ad error \(error)")
+                }
+            )
+        }
+    }
+    
+    func showRewardedAd(from viewController: UIViewController) {
+        Task { [weak self] in
+            do {
+                try await self?.swiftyAds.showRewardedAd(
+                    from: viewController,
+                    onOpen: {
+                        print("SwiftyAds rewarded ad did open")
+                    },
+                    onClose: {
+                        print("SwiftyAds rewarded ad did close")
+                    },
+                    onError: { error in
+                        print("SwiftyAds rewarded ad error \(error)")
+                    },
+                    onReward: { rewardAmount in
+                        print("SwiftyAds rewarded ad did reward user with \(rewardAmount)")
+                    }
+                )
+            } catch SwiftyAdsError.rewardedAdNotLoaded {
+                let alertController = UIAlertController(
+                    title: "Sorry",
+                    message: "No video available to watch at the moment.",
+                    preferredStyle: .alert
+                )
+                alertController.addAction(UIAlertAction(title: "Ok", style: .cancel))
+                DispatchQueue.main.async {
+                    viewController.present(alertController, animated: true)
+                }
+            }
+        }
+    }
+    
+    func showRewardedInterstitialAd(from viewController: UIViewController) {
+        Task { [weak self] in
+            try await self?.swiftyAds.showRewardedInterstitialAd(
+                from: viewController,
+                onOpen: {
+                    print("SwiftyAds rewarded interstitial ad did open")
+                },
+                onClose: {
+                    print("SwiftyAds rewarded interstitial ad did close")
+                },
+                onError: { error in
+                    print("SwiftyAds rewarded interstitial ad error \(error)")
+                },
+                onReward: { rewardAmount in
+                    print("SwiftyAds rewarded interstitial ad did reward user with \(rewardAmount)")
+                }
+            )
+        }
+    }
 }
