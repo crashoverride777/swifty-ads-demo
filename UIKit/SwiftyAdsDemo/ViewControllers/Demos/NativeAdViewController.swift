@@ -50,7 +50,7 @@ final class NativeAdViewController: UIViewController {
 
 // MARK: - GADUnifiedNativeAdDelegate
 
-extension NativeAdViewController: GADNativeAdDelegate {
+extension NativeAdViewController: NativeAdDelegate {
 
 
 }
@@ -58,12 +58,12 @@ extension NativeAdViewController: GADNativeAdDelegate {
 // MARK: - Private Methods
 
 private extension NativeAdViewController {
-    func showNativeAd(_ nativeAd: GADNativeAd) {
+    func showNativeAd(_ nativeAd: NativeAd) {
         // Create and place ad in view hierarchy.
         let bundle = Bundle(for: NativeAdViewController.self)
         let nibView = bundle.loadNibNamed("NativeAdView", owner: nil, options: nil)?.first
 
-        guard let nativeAdView = nibView as? GADNativeAdView else {
+        guard let nativeAdView = nibView as? NativeAdView else {
             fatalError("NativeAdViewController could not create GADNativeAdView from nib")
         }
         nativeAd.delegate = self

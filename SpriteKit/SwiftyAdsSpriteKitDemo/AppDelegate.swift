@@ -35,6 +35,7 @@ private extension AppDelegate {
         Task {
             do {
                 try await swiftyAds.initializeIfNeeded(from: viewController)
+                (window?.rootViewController as? GameViewController)?.adsConfigureCompletion()
             } catch {
                 print(error)
             }

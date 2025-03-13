@@ -27,8 +27,6 @@ final class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        makeBanner()
-
         if let scene = GameScene(fileNamed: "GameScene") {
             let skView = view as! SKView
             skView.ignoresSiblingOrder = true

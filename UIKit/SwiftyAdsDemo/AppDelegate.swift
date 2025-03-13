@@ -63,6 +63,7 @@ private extension AppDelegate {
         Task {
             do {
                 try await swiftyAds.initializeIfNeeded(from: viewController)
+                notificationCenter.post(name: .adsConfigureCompletion, object: nil)
             } catch {
                 print(error)
             }

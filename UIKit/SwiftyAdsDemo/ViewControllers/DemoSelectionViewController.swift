@@ -111,7 +111,6 @@ final class DemoSelectionViewController: UITableViewController {
         navigationItem.title = "Swifty Ads Demo"
         tableView.register(BasicCell.self, forCellReuseIdentifier: String(describing: BasicCell.self))
         notificationCenter.addObserver(self, selector: #selector(adsConfigureCompletion), name: .adsConfigureCompletion, object: nil)
-        makeBanner()
     }
 
     override func viewDidAppear(_ animated: Bool) {

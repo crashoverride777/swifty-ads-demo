@@ -3,7 +3,7 @@ import SwiftyAds
 import GoogleMobileAds
 
 final class AdsRequestBuilder: SwiftyAdsRequestBuilder {
-    func build() -> GADRequest {
-        GADRequest()
+    func build() -> Request {
+        Request()
     }
 }
